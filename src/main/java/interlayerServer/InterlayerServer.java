@@ -11,14 +11,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import message.Message;
 
+/**
+ * transfering data between home and web-server
+ * transfering command between remote device\web-server and home
+ * must have 'white' ip-adress for correct eork
+ */
 public class InterlayerServer 
 {
     static int homeConnectionPort = 1234;
-    static int remoteDeviceConnectionPort;
+    static int remoteDeviceConnectionPort = 1235;
     
+    /**
+     * de-serialize data, recieved from home and publish it on web-server
+     * @param msg recieved data
+     */
     static void homeMessageHandler(Message msg) //TODO realise it 
     {
         System.out.println(msg.getTemperature());
+        //send it to web-server
     }
     
     public static void main(String[] args) 
@@ -32,13 +42,12 @@ public class InterlayerServer
             //connect home
             HomeConnector homeConnector = new HomeConnector(homeSocket);
             
+            ServerSocket remoteDeviceSocket = new ServerSocket(remoteDeviceConnectionPort);
+            
             while (true) 
             {
-                //read data from home
-                //homeMessageHandler((Message)homeInput.readObject());
-                //send it to web-server
-                //listen to android-device connections
-                //listen to web-server commands
+                Socket remoteSocket = remoteDeviceSocket.accept();
+                
             }
             
         } catch (IOException ex) 

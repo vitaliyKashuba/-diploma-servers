@@ -8,6 +8,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import message.Message;
 
+/**
+ * recieving data from arduino and sending it to InterlayerServer
+ * recieving command from InterlayerServer and send it to arduino
+ */
 public class Home implements Runnable
 {
     static final String ip = "localhost";
@@ -52,6 +56,9 @@ public class Home implements Runnable
         }
     }
 
+    /**
+     * read data from arduino and send it to interlayer every 2 seconds in thread
+     */
     @Override
     public void run()
     {

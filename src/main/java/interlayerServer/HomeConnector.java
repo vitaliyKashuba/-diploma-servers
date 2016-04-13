@@ -8,6 +8,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import message.Message;
 
+/**
+ * thread used to recieve data from home
+ */
 public class HomeConnector extends Thread
 {
     ObjectInputStream input; 
@@ -34,6 +37,7 @@ public class HomeConnector extends Thread
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(HomeConnector.class.getName()).log(Level.SEVERE, null, ex);
             }
+            //listen to web-server commands
         }
     }
 }
