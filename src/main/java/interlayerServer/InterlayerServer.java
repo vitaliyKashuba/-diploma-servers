@@ -16,6 +16,11 @@ public class InterlayerServer
     static int homeConnectionPort = 1234;
     static int remoteDeviceConnectionPort;
     
+    static void homeMessageHandler(Message msg) //TODO realise it 
+    {
+        System.out.println(msg.getTemperature());
+    }
+    
     public static void main(String[] args) 
     {
         try 
@@ -25,19 +30,12 @@ public class InterlayerServer
             Socket homeSocket = homeServerSocket.accept();
             System.out.println("home connected");
             //connect home
-            Thread.sleep(200);
-            
-            ObjectInputStream homeInput = new ObjectInputStream(homeSocket.getInputStream());
-            ObjectOutputStream homeOutput = new ObjectOutputStream(homeSocket.getOutputStream());
-            
-            //System.out.println("object streams created");
+            HomeConnector homeConnector = new HomeConnector(homeSocket);
             
             while (true) 
             {
                 //read data from home
-                Message msg = (Message)homeInput.readObject();
-                //System.out.println("get msg");
-                System.out.println(msg.getTemperature());
+                //homeMessageHandler((Message)homeInput.readObject());
                 //send it to web-server
                 //listen to android-device connections
                 //listen to web-server commands
@@ -45,10 +43,6 @@ public class InterlayerServer
             
         } catch (IOException ex) 
         {
-            Logger.getLogger(InterlayerServer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(InterlayerServer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
             Logger.getLogger(InterlayerServer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
