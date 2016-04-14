@@ -1,8 +1,10 @@
 package interlayerServer;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,12 +16,15 @@ import message.Message;
 public class HomeConnector extends Thread
 {
     private ObjectInputStream input; 
-    private ObjectOutputStream output; 
+    //private ObjectOutputStream output; 
+    
+    PrintWriter output;
     
     public HomeConnector(Socket socket) throws IOException
     {        
         input = new ObjectInputStream(socket.getInputStream());
-        output = new ObjectOutputStream(socket.getOutputStream());
+        //output = new ObjectOutputStream(socket.getOutputStream());
+        output = new PrintWriter(socket.getOutputStream(), true);
         
         start();
     }
@@ -32,7 +37,9 @@ public class HomeConnector extends Thread
      */
     public void sendMessageToHome(String message) throws IOException
     {
-        output.writeBytes(message);
+        System.out.println("homeConnector.send");
+        //output.writeBytes(message);
+        output.println(message);
     }
     
     @Override
