@@ -42,7 +42,7 @@ public class Home
             System.out.println("inputs created");
             
             //create new thread to read data and messages to interlayer
-            MessagesSender ms = new MessagesSender(output);
+            MessagesSender ms = new MessagesSender(output);// runs in new thread
             String s;
             /**
              * recieving messages from interlayer
@@ -56,9 +56,10 @@ public class Home
                 //send cmd to arduino
 
                 //start messenger thread
-                while((s=input.readLine())!=null)//add handler for recieved command
+                while((s=input.readLine())!=null)
                 {
                     System.out.println(s);
+                    commandHandler(s);
                 }
             }
             
@@ -68,32 +69,46 @@ public class Home
         }
 
     }
-
+    
     /**
-     * read data from arduino and send it to interlayer every 2 seconds in thread
+     * choose what method call to send command to arduino
+     * @param command 
      */
-   /* @Override
-    public void run()
+    static void commandHandler(String command)
     {
-        // read data from arduino
-        while (true)
+        if (command.startsWith("turnServo")) //command pattern turnServo###
         {
-            //System.out.println("run");
-            Message message = new Message(); // write data to this message
-            try 
-            {
-                output.writeObject(message);
-                //System.out.println("message sent");
-                Thread.sleep(2000);
-            } catch (IOException ex) 
-            {
-                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("sending message failed");
-            } catch (InterruptedException ex) 
-            {
-                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-            }  
+            turnServo(Integer.parseInt(command.substring(9, command.length())));
         }
-    }*/
+        else
+        {
+            switch(command)
+            {
+                case "photo":
+                    takePhoto();
+                    break;
+                default:
+                    System.out.println("cannot parse command");
+                    break;
+            }
+        }
+    }
+    
+    /**
+     * send command to turn servo with web-cam
+     * @param degrees 
+     */
+    static void turnServo(int degrees)
+    {
+        //TODO send it to arduino
+    }
+    
+    /**
+     * take photo on web-cam and upload it somewhere
+     */
+    static void takePhoto()
+    {
+        //TODO finish it
+    }
        
 }
