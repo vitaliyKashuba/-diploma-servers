@@ -15,7 +15,7 @@ import message.Message;
  * recieving data from arduino and sending it to InterlayerServer
  * recieving command from InterlayerServer and send it to arduino
  */
-public class Home implements Runnable
+public class Home
 {
     static final String ip = "localhost";
     static final int port = 1234;
@@ -42,9 +42,7 @@ public class Home implements Runnable
             System.out.println("inputs created");
             
             //create new thread to read data and messages to interlayer
-            Runnable r = new Home();
-            //r.run();
-            
+            MessagesSender ms = new MessagesSender(output);
             String s;
             /**
              * recieving messages from interlayer
@@ -74,7 +72,7 @@ public class Home implements Runnable
     /**
      * read data from arduino and send it to interlayer every 2 seconds in thread
      */
-    @Override
+   /* @Override
     public void run()
     {
         // read data from arduino
@@ -96,6 +94,6 @@ public class Home implements Runnable
                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
             }  
         }
-    }
+    }*/
        
 }
