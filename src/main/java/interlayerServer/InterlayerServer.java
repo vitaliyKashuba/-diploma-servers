@@ -18,17 +18,28 @@ import message.Message;
  */
 public class InterlayerServer 
 {
-    static int homeConnectionPort = 1234;
-    static int remoteDeviceConnectionPort = 1235;
+    private static int homeConnectionPort = 1234;
+    private static int remoteDeviceConnectionPort = 1235;
     
+    private static HomeConnector homeConnector;
     /**
      * de-serialize data, recieved from home and publish it on web-server
      * @param msg recieved data
      */
-    static void homeMessageHandler(Message msg) //TODO realise it 
+    static void homeMessageHandler(Message msg) //TODO finish realise it 
     {
         System.out.println(msg.getTemperature());
         //send it to web-server
+    }
+    
+    /**
+     * used to send home command to execute smth on arduino
+     * command is simple (String or int), not needs to be serializable
+     * @param message command from command list
+     */
+    static void sendMessageToHome(String message) throws IOException //TODO add command list
+    {
+        homeConnector.sendMessageToHome(message);
     }
     
     public static void main(String[] args) 
@@ -40,7 +51,7 @@ public class InterlayerServer
             Socket homeSocket = homeServerSocket.accept();
             System.out.println("home connected");
             //connect home
-            HomeConnector homeConnector = new HomeConnector(homeSocket);
+            homeConnector = new HomeConnector(homeSocket);
             
             ServerSocket remoteDeviceSocket = new ServerSocket(remoteDeviceConnectionPort);
             

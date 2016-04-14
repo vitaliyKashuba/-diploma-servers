@@ -13,8 +13,8 @@ import message.Message;
  */
 public class HomeConnector extends Thread
 {
-    ObjectInputStream input; 
-    ObjectOutputStream output; 
+    private ObjectInputStream input; 
+    private ObjectOutputStream output; 
     
     public HomeConnector(Socket socket) throws IOException
     {        
@@ -22,6 +22,17 @@ public class HomeConnector extends Thread
         output = new ObjectOutputStream(socket.getOutputStream());
         
         start();
+    }
+    
+    /**
+     * send message to home
+     * called from InterlayerServer
+     * @param message
+     * @throws IOException 
+     */
+    public void sendMessageToHome(String message) throws IOException
+    {
+        output.writeBytes(message);
     }
     
     @Override

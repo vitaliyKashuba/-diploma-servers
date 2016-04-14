@@ -38,7 +38,8 @@ public class RemoteDeviceConnector extends Thread
             
             while ((message = input.readLine()) != null)
             {
-                System.out.println(message);//TODO add some handler
+                System.out.println(message);
+                InterlayerServer.sendMessageToHome(message);
             }
         } catch (IOException ex) 
         {
