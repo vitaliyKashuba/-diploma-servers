@@ -14,7 +14,7 @@ import message.Message;
 /**
  * transfering data between home and web-server
  * transfering command between remote device\web-server and home
- * must have 'white' ip-adress for correct eork
+ * must have 'white' ip-adress for correct work
  */
 public class InterlayerServer 
 {
@@ -47,7 +47,8 @@ public class InterlayerServer
             while (true) 
             {
                 Socket remoteSocket = remoteDeviceSocket.accept();
-                
+                System.out.println("remote device connected");
+                RemoteDeviceConnector remoteConnector = new RemoteDeviceConnector(remoteSocket);    
             }
             
         } catch (IOException ex) 
