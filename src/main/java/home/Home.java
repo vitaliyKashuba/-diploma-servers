@@ -17,7 +17,7 @@ import message.Message;
  */
 public class Home
 {
-    static final String ip = "localhost";
+    static final String ip = "192.168.10.101";
     static final int port = 1234;
     
     //static ObjectInputStream input;
@@ -27,6 +27,7 @@ public class Home
     
     public static void main(String args[])
     {
+        System.out.println("home server started");
         try 
         {
             //read config

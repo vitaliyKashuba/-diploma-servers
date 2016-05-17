@@ -1,5 +1,6 @@
 package message;
 
+import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -11,7 +12,7 @@ public class Message implements Serializable
     private float temperature;
     private int pressure;
     private byte armStatus; // change to enum?
-    //photo?
+    //private File photo; really needs?
     
     public float getTemperature()
     {

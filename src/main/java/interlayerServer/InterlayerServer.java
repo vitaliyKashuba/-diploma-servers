@@ -45,6 +45,7 @@ public class InterlayerServer
     
     public static void main(String[] args) 
     {
+        System.out.println("interlayer started");
         try 
         {
             //open serverSocket
@@ -67,6 +68,24 @@ public class InterlayerServer
         {
             Logger.getLogger(InterlayerServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+    }
+    
+    /**
+     * used to allow reconnect home server without restarting interlayer
+     */
+    static void reconnectHome() //TODO test it
+    {
+        try 
+        {
+            ServerSocket homeServerSocket = new ServerSocket(homeConnectionPort);
+            Socket homeSocket = homeServerSocket.accept();
+            System.out.println("home connected");
+            //connect home
+            homeConnector = new HomeConnector(homeSocket);
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(InterlayerServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
