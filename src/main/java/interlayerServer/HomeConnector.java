@@ -54,7 +54,6 @@ public class HomeConnector extends Thread
                 //Logger.getLogger(HomeConnector.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("home server disconnected");
                 this.destroy();
-                //InterlayerServer.reconnectHome();
             } catch (ClassNotFoundException ex) {
                 //Logger.getLogger(HomeConnector.class.getName()).log(Level.SEVERE, null, ex);
             }

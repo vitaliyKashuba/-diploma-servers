@@ -48,23 +48,11 @@ public class InterlayerServer
         System.out.println("interlayer started");
         try 
         {
-            //open serverSocket
             ServerSocket homeServerSocket = new ServerSocket(homeConnectionPort);
-            //Socket homeSocket = homeServerSocket.accept();
-            //System.out.println("home connected");
-            //connect home
-            //homeConnector = new HomeConnector(homeSocket);
-            
             ServerSocket remoteDeviceSocket = new ServerSocket(remoteDeviceConnectionPort);
             
             RemoteConnectionsCreator remoteConnectionsCreator = new RemoteConnectionsCreator(remoteDeviceSocket);
             remoteConnectionsCreator.start();
-            /*while (true) 
-            {
-                Socket remoteSocket = remoteDeviceSocket.accept();
-                System.out.println("remote device connected");
-                RemoteDeviceConnector remoteConnector = new RemoteDeviceConnector(remoteSocket);    
-            }*/// this worked just uncomment if RemoteConnectionsCreator fails
             
             while (true)
             {
@@ -77,33 +65,6 @@ public class InterlayerServer
         } catch (IOException ex) 
         {
             System.out.println("disconnect");
-            //Logger.getLogger(InterlayerServer.class.getName()).log(Level.SEVERE, null, ex);
-            /*homeConnector.destroy();
-            System.out.println("destroyed");
-            reconnectHome();*/
         }
-    }
-    
-    /**
-     * used to allow reconnect home server without restarting interlayer
-     */
-    static void reconnectHome() //TODO test it
-    {
-        try 
-        {
-            System.out.println("try to reconnect");
-            homeConnector = null;
-            System.out.println("nulled");
-            
-            ServerSocket homeServerSocket = new ServerSocket(homeConnectionPort);
-            Socket homeSocket = homeServerSocket.accept();
-            System.out.println("home reconnected");
-            //connect home
-            homeConnector = new HomeConnector(homeSocket);
-        } 
-        catch (IOException ex) 
-        {
-            Logger.getLogger(InterlayerServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    }   
 }
