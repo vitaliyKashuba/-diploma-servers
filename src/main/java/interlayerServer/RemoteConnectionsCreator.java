@@ -10,14 +10,14 @@ import java.util.logging.Logger;
  * used to create connections from remote device at same time
  * just ad-hoc to avoid server falling after home disconnect
  */
-public class RemoteConnecctionsCreator extends Thread
+public class RemoteConnectionsCreator extends Thread
 {
     ServerSocket remoteDeviceSocket;
     
-    public RemoteConnecctionsCreator(ServerSocket remoteDeviceSocket)
+    public RemoteConnectionsCreator(ServerSocket remoteDeviceSocket)
     {
         this.remoteDeviceSocket = remoteDeviceSocket;
-        start();
+        //start();
     }
     
     @Override
@@ -33,7 +33,7 @@ public class RemoteConnecctionsCreator extends Thread
             } 
             catch (IOException ex) 
             {
-                Logger.getLogger(RemoteConnecctionsCreator.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RemoteConnectionsCreator.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

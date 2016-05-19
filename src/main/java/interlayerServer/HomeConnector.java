@@ -51,11 +51,12 @@ public class HomeConnector extends Thread
             {
                 InterlayerServer.homeMessageHandler((Message)input.readObject());
             } catch (IOException ex) {
-                Logger.getLogger(HomeConnector.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(HomeConnector.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("home server disconnected");
-                InterlayerServer.reconnectHome();
+                this.destroy();
+                //InterlayerServer.reconnectHome();
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(HomeConnector.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(HomeConnector.class.getName()).log(Level.SEVERE, null, ex);
             }
             //listen to web-server commands
         }
