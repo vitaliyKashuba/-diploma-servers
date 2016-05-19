@@ -20,6 +20,8 @@ public class Home
     static final String ip = "192.168.10.101";
     static final int port = 1234;
     
+    static boolean armed = false;
+    
     //static ObjectInputStream input;
     static ObjectOutputStream output;
     
@@ -111,5 +113,19 @@ public class Home
     {
         //TODO finish it
     }
+    
+    /**
+     * starts alarm
+     * should activate if sensors detects motion or user send command
+     */
+    static void alarmOn()
+    {}
+    
+    /**
+     * ends alarm
+     * called by user command or after 5 minutes of alarming
+     */
+    static void alarmOff()
+    {}
        
 }

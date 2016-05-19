@@ -57,16 +57,19 @@ public class InterlayerServer
             
             ServerSocket remoteDeviceSocket = new ServerSocket(remoteDeviceConnectionPort);
             
-            while (true) 
+            /*while (true) 
             {
                 Socket remoteSocket = remoteDeviceSocket.accept();
                 System.out.println("remote device connected");
                 RemoteDeviceConnector remoteConnector = new RemoteDeviceConnector(remoteSocket);    
-            }
+            }*/// this worked just uncomment if RemoteConnectionsCreator fails
             
         } catch (IOException ex) 
         {
             Logger.getLogger(InterlayerServer.class.getName()).log(Level.SEVERE, null, ex);
+            /*homeConnector.destroy();
+            System.out.println("destroyed");
+            reconnectHome();*/
         }
     }
     
@@ -77,9 +80,13 @@ public class InterlayerServer
     {
         try 
         {
+            System.out.println("try to reconnect");
+            homeConnector = null;
+            System.out.println("nulled");
+            
             ServerSocket homeServerSocket = new ServerSocket(homeConnectionPort);
             Socket homeSocket = homeServerSocket.accept();
-            System.out.println("home connected");
+            System.out.println("home reconnected");
             //connect home
             homeConnector = new HomeConnector(homeSocket);
         } 
