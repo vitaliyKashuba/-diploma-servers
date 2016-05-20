@@ -37,7 +37,7 @@ public class HomeConnector extends Thread
      */
     public void sendMessageToHome(String message) throws IOException
     {
-        System.out.println("homeConnector.send");
+        //System.out.println("homeConnector.send");
         //output.writeBytes(message);
         output.println(message);
     }

@@ -39,7 +39,7 @@ public class InterlayerServer
      */
     static void sendMessageToHome(String message) throws IOException //TODO add command list
     {
-        System.out.println("InterlayerServer.send");
+        //System.out.println("InterlayerServer.send");
         homeConnector.sendMessageToHome(message);
     }
     

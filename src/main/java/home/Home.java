@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import message.Message;
 import jssc.*;
+import message.Commands;
 
 /**
  * recieving data from arduino and sending it to InterlayerServer
@@ -100,6 +101,12 @@ public class Home
         {
             switch(command)
             {
+                case "lightOn":
+                    setLightOn(true);
+                    break;
+                case "lightOff":
+                    setLightOn(false);
+                    break;
                 case "photo":
                     takePhoto();
                     break;
@@ -167,9 +174,21 @@ public class Home
         }
     }
     
-    static void sendCommand(String cmd)
+    /**
+     * send digital command to controller
+     * @param command command from enum Commands
+     * @see Commands
+     */
+    static void sendCommand(Commands command)
     {
-        //TODO 
+        try 
+        {
+            serialPort.writeBytes(Integer.toString(command.getCommandDigit()).getBytes()); //some magic
+        } 
+        catch (SerialPortException ex) 
+        {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -202,5 +221,21 @@ public class Home
      */
     static void alarmOff()
     {}
+    
+    /**
+     * switch on/off light
+     * @param onOff true - light on, false - off
+     */
+    static void setLightOn(boolean onOff)
+    {
+        if (onOff)
+        {
+            sendCommand(Commands.LIGHT_ON);
+        }
+        else
+        {
+            sendCommand(Commands.LIGHT_OFF);
+        }
+    }
        
 }
