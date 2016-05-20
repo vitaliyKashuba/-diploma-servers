@@ -122,13 +122,30 @@ public class Home
      */
     static void controllerMessageParsing(String msg)
     {
-        System.out.println("parsing " + msg);
+        //System.out.println("parsing " + msg);
         String values[] = msg.split("_");
-        //System.out.println(values.length);
-        for(String s: values)
+
+        int lightLevel = Integer.parseInt(values[0].substring(2));
+        float humidity = Float.parseFloat(values[1].substring(1));
+        float temperature = Float.parseFloat(values[2].substring(1));
+        boolean motion = false, relayStatus = false;
+        if (values[3].substring(2).equals("0"))
         {
-            System.out.println(s);
+            motion = false;
         }
+        else if (values[3].substring(2).equals("1"))
+        {
+            motion = true;
+        }
+        if (values[4].substring(2).equals("0"))
+        {
+            relayStatus = false;
+        }
+        else if (values[4].substring(2).equals("1"))
+        {
+            relayStatus = true;
+        }
+        System.out.println("LightLevel: "+lightLevel+"\nHumidity: "+humidity+"\nTemperature: "+temperature+"\nmotion detected: "+motion+"\nrelayStatus: "+relayStatus);
     }
     
     /**

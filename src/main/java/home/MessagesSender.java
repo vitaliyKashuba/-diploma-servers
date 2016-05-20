@@ -7,6 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import message.Message;
 
+/**
+ * become useless ?
+ */
 public class MessagesSender extends Thread
 {
     private ObjectOutputStream output;
