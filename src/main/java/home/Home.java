@@ -24,12 +24,12 @@ public class Home
     private static boolean armed = false;
     
     //static ObjectInputStream input;
-    static ObjectOutputStream output;
+    private static ObjectOutputStream output;
     
-    static BufferedReader input;
+    private static BufferedReader input;
     
     static SerialPort serialPort;
-    static String serialPortID = "COM5";
+    private static String serialPortID = "COM5";
     
     public static void main(String args[])
     {
@@ -56,7 +56,6 @@ public class Home
             System.out.println("inputs created");
             
             //create new thread to read data and messages to interlayer
-            MessagesSender ms = new MessagesSender(output);// runs in new thread
             String s;
             /**
              * recieving messages from interlayer
@@ -88,6 +87,7 @@ public class Home
     
     /**
      * choose what method call to send command to arduino
+     * called from main cycle when some data recieved from interlayer
      * @param command 
      */
     static void commandHandler(String command)
@@ -118,11 +118,11 @@ public class Home
      * 'mt' is motion detect, 'rl' is relay status
      * 
      * calls from SerialPortReader event listener
+     * serialize parsed data in Message and call sendMessage to send it to interlayer
      * @param msg message from arduino
      */
     static void controllerMessageParsing(String msg)
     {
-        //System.out.println("parsing " + msg);
         String values[] = msg.split("_");
 
         int lightLevel = Integer.parseInt(values[0].substring(2));
@@ -165,6 +165,11 @@ public class Home
             System.out.println("sending message to interlayer failed");
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    static void sendCommand(String cmd)
+    {
+        //TODO 
     }
     
     /**
