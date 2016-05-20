@@ -9,10 +9,18 @@ import java.io.Serializable;
 public class Message implements Serializable
 {
     //some data and get-methods
+    private int lightLevel;
     private float temperature;
-    private int pressure;
+    private float humidity;
     private byte armStatus; // change to enum?
+    private boolean motionDetected;
+    private boolean relayStatus;
     //private File photo; really needs?
+    
+    public int getLightLevel()
+    {
+        return lightLevel;
+    }
     
     public float getTemperature()
     {
@@ -24,9 +32,19 @@ public class Message implements Serializable
         return armStatus;
     }
     
-    public int getPressure()
+    public float getHumidity()
     {
-        return pressure;
+        return humidity;
+    }
+    
+    public boolean getMotionDetected()
+    {
+        return motionDetected;
+    }
+    
+    public boolean getRelayStatus()
+    {
+        return relayStatus;
     }
     
     public Message() //just to test connection, needs to be rewrited
@@ -35,11 +53,13 @@ public class Message implements Serializable
         armStatus = 1;
     }
     
-    public Message(float tempetarure, int pressure, byte armStatus)
+    public Message(int lightLevel, float tempetarure, float humidity, boolean motion, boolean relayStatus)
     {
+        this.lightLevel = lightLevel;
         this.temperature=tempetarure;
-        this.pressure = pressure;
-        this.armStatus = armStatus;
+        this.humidity = humidity;
+        this.motionDetected = motion;
+        this.relayStatus = relayStatus;
     }
      
 }

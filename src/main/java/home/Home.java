@@ -148,6 +148,11 @@ public class Home
         System.out.println("LightLevel: "+lightLevel+"\nHumidity: "+humidity+"\nTemperature: "+temperature+"\nmotion detected: "+motion+"\nrelayStatus: "+relayStatus);
     }
     
+    static void messageSender(Message msg)
+    {
+        
+    }
+    
     /**
      * send command to turn servo with web-cam
      * @param degrees 
