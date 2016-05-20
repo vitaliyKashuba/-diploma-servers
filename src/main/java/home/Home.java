@@ -145,12 +145,26 @@ public class Home
         {
             relayStatus = true;
         }
-        System.out.println("LightLevel: "+lightLevel+"\nHumidity: "+humidity+"\nTemperature: "+temperature+"\nmotion detected: "+motion+"\nrelayStatus: "+relayStatus);
+        System.out.println("LightLevel: "+lightLevel+"\nHumidity: "+humidity+"\nTemperature: "+temperature+"\nmotion detected: "+motion+"\nrelayStatus: "+relayStatus+"\n");
+        
+        Message messageToSend = new Message(lightLevel, temperature, humidity, motion, relayStatus);
+        sendMessage(messageToSend);
     }
     
-    static void messageSender(Message msg)
+    /**
+     * send serialized message to interlayer
+     */
+    static void sendMessage(Message msg)
     {
-        
+        try 
+        {
+            output.writeObject(msg);
+        } 
+        catch (IOException ex) 
+        {
+            System.out.println("sending message to interlayer failed");
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
