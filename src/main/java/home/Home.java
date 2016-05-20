@@ -32,6 +32,11 @@ public class Home
     static SerialPort serialPort;
     private static String serialPortID = "COM5";
     
+    private static boolean motion;
+    private static int lightLevel;
+    static final int LIGHT_LEVEL_LIMIT = 50;
+    static final int LIGHT_SWITCH_DELAY = 5000;
+    
     public static void main(String args[])
     {
         System.out.println("home server started");
@@ -56,6 +61,8 @@ public class Home
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));;
             System.out.println("inputs created");
             
+            new MotionLightSwitch().start();
+            
             //create new thread to read data and messages to interlayer
             String s;
             /**
@@ -74,7 +81,7 @@ public class Home
                 {
                     System.out.println(s);
                     commandHandler(s);
-                }
+                }                               
             }
             
         } catch (IOException ex) 
@@ -153,6 +160,9 @@ public class Home
             relayStatus = true;
         }
         System.out.println("LightLevel: "+lightLevel+"\nHumidity: "+humidity+"\nTemperature: "+temperature+"\nmotion detected: "+motion+"\nrelayStatus: "+relayStatus+"\n");
+        
+        Home.lightLevel = lightLevel;
+        Home.motion = motion;
         
         Message messageToSend = new Message(lightLevel, temperature, humidity, motion, relayStatus);
         sendMessage(messageToSend);
@@ -237,5 +247,21 @@ public class Home
             sendCommand(Commands.LIGHT_OFF);
         }
     }
-       
+     
+    /**
+     * method used to check, is it necessary to switch on the light for a while
+     * called from MotionLightSwitch in thread
+     * @return true if motion detected and light level is low
+     */
+    static boolean isLightShouldBeTurnedOn()
+    {
+        if (lightLevel<LIGHT_LEVEL_LIMIT && motion == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
