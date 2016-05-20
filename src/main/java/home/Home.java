@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import message.Message;
+import jssc.*;
 
 /**
  * recieving data from arduino and sending it to InterlayerServer
@@ -17,7 +18,7 @@ import message.Message;
  */
 public class Home
 {
-    static final String ip = "192.168.10.101";
+    static final String ip = "192.168.10.101"; // change to ip of interlayer server
     static final int port = 1234;
     
     static boolean armed = false;
@@ -27,6 +28,9 @@ public class Home
     
     static BufferedReader input;
     
+    static SerialPort serialPort;
+    static String serialPortID = "COM5";
+    
     public static void main(String args[])
     {
         System.out.println("home server started");
@@ -35,6 +39,13 @@ public class Home
             //read config
             
             //connect to arduino device
+            serialPort = new SerialPort(serialPortID);
+            serialPort.openPort();//Open serial port
+            serialPort.setParams(SerialPort.BAUDRATE_9600, 
+                                 SerialPort.DATABITS_8,
+                                 SerialPort.STOPBITS_1,
+                                 SerialPort.PARITY_NONE);//Set params. Also you can set params by this string: serialPort.setParams(9600, 8, 1, 0);
+            serialPort.addEventListener(new SerialPortReader(), SerialPort.MASK_RXCHAR);
             
             //connect to interlayer
             Socket socket = new Socket(ip, port);
@@ -68,6 +79,8 @@ public class Home
             
         } catch (IOException ex) 
         {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SerialPortException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
 
