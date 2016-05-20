@@ -18,10 +18,10 @@ import jssc.*;
  */
 public class Home
 {
-    static final String ip = "192.168.10.101"; // change to ip of interlayer server
-    static final int port = 1234;
+    private static final String ip = "192.168.10.101"; // change to ip of interlayer server
+    private static final int port = 1234;
     
-    static boolean armed = false;
+    private static boolean armed = false;
     
     //static ObjectInputStream input;
     static ObjectOutputStream output;
@@ -41,7 +41,7 @@ public class Home
             //connect to arduino device
             serialPort = new SerialPort(serialPortID);
             serialPort.openPort();//Open serial port
-            serialPort.setParams(SerialPort.BAUDRATE_9600, 
+            serialPort.setParams(SerialPort.BAUDRATE_38400, 
                                  SerialPort.DATABITS_8,
                                  SerialPort.STOPBITS_1,
                                  SerialPort.PARITY_NONE);//Set params. Also you can set params by this string: serialPort.setParams(9600, 8, 1, 0);
@@ -107,6 +107,27 @@ public class Home
                     System.out.println("cannot parse command");
                     break;
             }
+        }
+    }
+    
+    /**
+     * method to parse controller message
+     * 
+     * message template on 20.05.16 18:06 is lt###_h##_t##_mt#_rl#
+     * where 'lt' is light level, 'h' is hudimity, 't' is temperaature 
+     * 'mt' is motion detect, 'rl' is relay status
+     * 
+     * calls from SerialPortReader event listener
+     * @param msg message from arduino
+     */
+    static void controllerMessageParsing(String msg)
+    {
+        System.out.println("parsing " + msg);
+        String values[] = msg.split("_");
+        //System.out.println(values.length);
+        for(String s: values)
+        {
+            System.out.println(s);
         }
     }
     

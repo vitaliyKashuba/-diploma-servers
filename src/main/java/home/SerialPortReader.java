@@ -17,9 +17,11 @@ public class SerialPortReader implements SerialPortEventListener
             try 
             {
                 String data = serialPort.readString(event.getEventValue());
-                Thread.sleep(500);
-                System.out.println(data);
-            } catch (SerialPortException ex) {
+                Thread.sleep(1000); //increase baudrate or delay if data not transmissed in full-size
+                //System.out.println(data);
+                Home.controllerMessageParsing(data);
+            } catch (SerialPortException ex) 
+            {
                 Logger.getLogger(SerialPortReader.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {
                 Logger.getLogger(SerialPortReader.class.getName()).log(Level.SEVERE, null, ex);
