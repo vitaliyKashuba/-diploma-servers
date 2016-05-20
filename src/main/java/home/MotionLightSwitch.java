@@ -11,6 +11,7 @@ import message.Commands;
 
 /**
  * switch on light if motion detected and light level is low
+ * //TODO move this logic to microcontroller?
  */
 public class MotionLightSwitch extends Thread
 {

@@ -6,8 +6,12 @@ package message;
  */
 public enum Commands 
 {
+    //TODO enlarge command list
     LIGHT_ON(11),
-    LIGHT_OFF(10);
+    LIGHT_OFF(10),
+    SIREN_ON(21),
+    SIREN_OFF(20),
+    FEED(3);
     
     private int command;
 

@@ -264,4 +264,16 @@ public class Home
             return false;
         }
     }
+    
+    /**
+     * used to control color of RGB led backlight
+     * @param on switch on\off
+     * @param color rgb color 4rrrgggbbb //TODO change to Class RGB?
+     */
+    static void setRGB(boolean on, int color)
+    {}
+    
+    static void feedFish()
+    {}
+    
 }
