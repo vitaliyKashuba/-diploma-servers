@@ -1,17 +1,26 @@
 package home;
 
+import com.github.sarxos.webcam.Webcam;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import message.Message;
 import jssc.*;
 import message.Commands;
+import javax.media.*;
+import javax.media.control.*;
+import javax.media.datasink.*;
+import javax.media.format.*;
+import javax.media.protocol.*;
 
 /**
  * recieving data from arduino and sending it to InterlayerServer
@@ -37,8 +46,22 @@ public class Home
     static final int LIGHT_LEVEL_LIMIT = 50;
     static final int LIGHT_SWITCH_DELAY = 5000;
     
+    private static CaptureDeviceInfo	captureVideoDevice = null;
+    
     public static void main(String args[])
     {
+        //Vector deviceListVector = CaptureDeviceManager.getDeviceList(null);
+        
+        //System.out.println(deviceListVector.size());
+        
+        Webcam webcam = Webcam.getDefault();
+        webcam.open();
+        try {
+            ImageIO.write(webcam.getImage(), "PNG", new File("C:\\hello-world.png"));
+        } catch (IOException ex) {
+            //Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         System.out.println("home server started");
         try 
         {
