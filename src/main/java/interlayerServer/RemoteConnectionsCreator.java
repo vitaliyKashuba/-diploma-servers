@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import message.Message;
 
 /**
  * used to create connections from remote device at same time
@@ -14,7 +15,8 @@ public class RemoteConnectionsCreator extends Thread
 {
     ServerSocket remoteDeviceSocket;
     static int remoteConnectionsCount = 0;
-    
+    RemoteDeviceConnector remoteConnector;
+            
     public RemoteConnectionsCreator(ServerSocket remoteDeviceSocket)
     {
         this.remoteDeviceSocket = remoteDeviceSocket;
@@ -31,12 +33,17 @@ public class RemoteConnectionsCreator extends Thread
                 Socket remoteSocket = remoteDeviceSocket.accept();
                 System.out.println("remote device connected");
                 remoteConnectionsCount++; //TODO -- while remote disconnected
-                RemoteDeviceConnector remoteConnector = new RemoteDeviceConnector(remoteSocket);
+                remoteConnector = new RemoteDeviceConnector(remoteSocket); //TODO save this to List
             } 
             catch (IOException ex) 
             {
                 Logger.getLogger(RemoteConnectionsCreator.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    void sendToAllRemoteDevices(Message message)
+    {
+        remoteConnector.sendMessage(message);
     }
 }

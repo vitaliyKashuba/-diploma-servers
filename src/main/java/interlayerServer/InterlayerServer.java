@@ -25,6 +25,7 @@ public class InterlayerServer
     private static int remoteDeviceConnectionPort = 1235;
     
     private static HomeConnector homeConnector;
+    private static RemoteConnectionsCreator remoteConnectionsCreator;
     /**
      * de-serialize data, recieved from home and publish it on web-server
      * @param msg recieved data
@@ -48,7 +49,7 @@ public class InterlayerServer
          */
         if(RemoteConnectionsCreator.remoteConnectionsCount>0)
         {
-            
+            remoteConnectionsCreator.sendToAllRemoteDevices(msg);
         }
     }
     
@@ -59,7 +60,7 @@ public class InterlayerServer
      */
     static void sendMessageToHome(String message) throws IOException //TODO add command list
     {
-        //System.out.println("InterlayerServer.send");
+        System.out.println("InterlayerServer.send "+message);
         homeConnector.sendMessageToHome(message);
     }
     
@@ -71,7 +72,7 @@ public class InterlayerServer
             ServerSocket homeServerSocket = new ServerSocket(homeConnectionPort);
             ServerSocket remoteDeviceSocket = new ServerSocket(remoteDeviceConnectionPort);
             
-            RemoteConnectionsCreator remoteConnectionsCreator = new RemoteConnectionsCreator(remoteDeviceSocket);
+            remoteConnectionsCreator = new RemoteConnectionsCreator(remoteDeviceSocket);
             remoteConnectionsCreator.start();
             
             while (true)

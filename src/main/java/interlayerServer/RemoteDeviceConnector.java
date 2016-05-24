@@ -8,11 +8,12 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import message.Message;
 
 public class RemoteDeviceConnector extends Thread
 {
     //ObjectInputStream input; 
-    //ObjectOutputStream output; 
+    ObjectOutputStream output; 
     
     BufferedReader input;
     String message;
@@ -23,6 +24,7 @@ public class RemoteDeviceConnector extends Thread
         //output = new ObjectOutputStream(socket.getOutputStream());
         
         input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        output = new ObjectOutputStream(socket.getOutputStream());
         
         start();
     }
@@ -43,6 +45,21 @@ public class RemoteDeviceConnector extends Thread
             }
         } catch (IOException ex) 
         {
+            Logger.getLogger(RemoteDeviceConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * send serialized message to android-device
+     */
+    public void sendMessage(Message message)
+    {
+        try 
+        {
+            output.writeObject(message);
+        } catch (IOException ex) 
+        {
+            System.out.println("sending message to android failed");
             Logger.getLogger(RemoteDeviceConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
