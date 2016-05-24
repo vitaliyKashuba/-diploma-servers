@@ -1,5 +1,6 @@
 package message;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.Serializable;
 
@@ -15,6 +16,7 @@ public class Message implements Serializable
     private byte armStatus; // change to enum?
     private boolean motionDetected;
     private boolean relayStatus;
+    private File image;
     //private File photo; really needs?
     
     public int getLightLevel()
@@ -47,6 +49,11 @@ public class Message implements Serializable
         return relayStatus;
     }
     
+    public File getImage()
+    {
+        return image;
+    }
+    
     public Message() //just to test connection, needs to be rewrited
     {
         temperature = 20;
@@ -60,6 +67,16 @@ public class Message implements Serializable
         this.humidity = humidity;
         this.motionDetected = motion;
         this.relayStatus = relayStatus;
+    }
+    
+    public Message(int lightLevel, float tempetarure, float humidity, boolean motion, boolean relayStatus, File image)
+    {
+        this.lightLevel = lightLevel;
+        this.temperature=tempetarure;
+        this.humidity = humidity;
+        this.motionDetected = motion;
+        this.relayStatus = relayStatus;
+        this.image = image;
     }
      
 }

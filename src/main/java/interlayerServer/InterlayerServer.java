@@ -1,5 +1,7 @@
 package interlayerServer;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -9,6 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import message.Message;
 
 /**
@@ -30,6 +33,23 @@ public class InterlayerServer
     {
         System.out.println(msg.getTemperature());
         //send it to web-server
+        File f = new File("C:\\camRecieved.png"); //just to test File recieving
+        try 
+        {
+            BufferedImage img = ImageIO.read(msg.getImage());
+            ImageIO.write(img, "PNG", f);
+        } catch (IOException ex) 
+        {
+            Logger.getLogger(InterlayerServer.class.getName()).log(Level.SEVERE, null, ex);
+        }//test code
+        
+        /**
+         * send data to remote devices if any connected
+         */
+        if(RemoteConnectionsCreator.remoteConnectionsCount>0)
+        {
+            
+        }
     }
     
     /**

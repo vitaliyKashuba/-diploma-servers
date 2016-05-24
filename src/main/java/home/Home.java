@@ -1,6 +1,7 @@
 package home;
 
 import com.github.sarxos.webcam.Webcam;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
@@ -47,6 +48,7 @@ public class Home
     static final int LIGHT_SWITCH_DELAY = 5000;
     
     private static CaptureDeviceInfo	captureVideoDevice = null;
+    private static Webcam webcam;
     
     public static void main(String args[])
     {
@@ -54,13 +56,16 @@ public class Home
         
         //System.out.println(deviceListVector.size());
         
-        Webcam webcam = Webcam.getDefault();
+        /*Webcam webcam = Webcam.getDefault();
         webcam.open();
         try {
             ImageIO.write(webcam.getImage(), "PNG", new File("C:\\hello-world.png"));
         } catch (IOException ex) {
             //Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
+        
+        webcam = Webcam.getDefault();
+        webcam.open();
         
         System.out.println("home server started");
         try 
@@ -187,7 +192,17 @@ public class Home
         Home.lightLevel = lightLevel;
         Home.motion = motion;
         
-        Message messageToSend = new Message(lightLevel, temperature, humidity, motion, relayStatus);
+        File img = new File("C:\\cam.png");
+        BufferedImage image = webcam.getImage();
+        try 
+        {
+            ImageIO.write(image, "PNG", img); //because File can be serialized, BufferedImage - no
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Message messageToSend = new Message(lightLevel, temperature, humidity, motion, relayStatus, img);
         sendMessage(messageToSend);
     }
     

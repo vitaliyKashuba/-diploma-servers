@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 public class RemoteConnectionsCreator extends Thread
 {
     ServerSocket remoteDeviceSocket;
+    static int remoteConnectionsCount = 0;
     
     public RemoteConnectionsCreator(ServerSocket remoteDeviceSocket)
     {
@@ -29,6 +30,7 @@ public class RemoteConnectionsCreator extends Thread
             {
                 Socket remoteSocket = remoteDeviceSocket.accept();
                 System.out.println("remote device connected");
+                remoteConnectionsCount++; //TODO -- while remote disconnected
                 RemoteDeviceConnector remoteConnector = new RemoteDeviceConnector(remoteSocket);
             } 
             catch (IOException ex) 
