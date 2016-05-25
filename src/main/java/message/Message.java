@@ -16,7 +16,7 @@ public class Message implements Serializable
     private byte armStatus; // change to enum?
     private boolean motionDetected;
     private boolean relayStatus;
-    private File image;
+    private byte [] image;
     //private File photo; really needs?
     
     public int getLightLevel()
@@ -49,7 +49,7 @@ public class Message implements Serializable
         return relayStatus;
     }
     
-    public File getImage()
+    public byte [] getImage()
     {
         return image;
     }
@@ -69,7 +69,7 @@ public class Message implements Serializable
         this.relayStatus = relayStatus;
     }
     
-    public Message(int lightLevel, float tempetarure, float humidity, boolean motion, boolean relayStatus, File image)
+    public Message(int lightLevel, float tempetarure, float humidity, boolean motion, boolean relayStatus, byte [] image)
     {
         this.lightLevel = lightLevel;
         this.temperature=tempetarure;

@@ -42,10 +42,11 @@ public class RemoteDeviceConnector extends Thread
             {
                 System.out.println(message);
                 InterlayerServer.sendMessageToHome(message);
+                output.writeObject(new Message()); //debug code, delete this line
             }
         } catch (IOException ex) 
         {
-            Logger.getLogger(RemoteDeviceConnector.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(RemoteDeviceConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -60,7 +61,7 @@ public class RemoteDeviceConnector extends Thread
         } catch (IOException ex) 
         {
             System.out.println("sending message to android failed");
-            Logger.getLogger(RemoteDeviceConnector.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(RemoteDeviceConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

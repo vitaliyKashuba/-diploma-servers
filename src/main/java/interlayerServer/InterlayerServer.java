@@ -34,7 +34,7 @@ public class InterlayerServer
     {
         System.out.println(msg.getTemperature());
         //send it to web-server
-        File f = new File("C:\\camRecieved.png"); //just to test File recieving
+        /*File f = new File("E:\\camRecieved.png"); //just to test File recieving
         try 
         {
             BufferedImage img = ImageIO.read(msg.getImage());
@@ -42,7 +42,7 @@ public class InterlayerServer
         } catch (IOException ex) 
         {
             Logger.getLogger(InterlayerServer.class.getName()).log(Level.SEVERE, null, ex);
-        }//test code
+        }//test code*/
         
         /**
          * send data to remote devices if any connected

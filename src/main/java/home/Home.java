@@ -32,7 +32,7 @@ import javax.swing.ImageIcon;
  */
 public class Home
 {
-    private static final String ip = "192.168.10.102"; // change to ip of interlayer server
+    private static final String ip = "192.168.10.101"; // change to ip of interlayer server
     private static final int port = 1234;
     
     private static boolean armed = false;
@@ -195,21 +195,19 @@ public class Home
         Home.lightLevel = lightLevel;
         Home.motion = motion;
         
-        File img = new File("E:\\camera.png");
         BufferedImage image = webcam.getImage();
         ByteArrayOutputStream byteImage = new ByteArrayOutputStream();
         try 
         {
-            ImageIO.write(image, "PNG", img); //because File can be serialized, BufferedImage - no
-            ImageIO.write(image, "PNG", byteImage);
+            ImageIO.write(image, "png", byteImage);
         } 
         catch (IOException ex) 
         {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
+        byte binariedImage[] = byteImage.toByteArray();
         
-        byte buf[] = byteImage.toByteArray();
-        ByteArrayInputStream inputImg = new ByteArrayInputStream(buf);
+        /*ByteArrayInputStream inputImg = new ByteArrayInputStream(buf);
         try 
         {
             BufferedImage imgtest = ImageIO.read(inputImg);
@@ -217,9 +215,9 @@ public class Home
         } catch (IOException ex) 
         {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/   //just how it should be on client side
         
-        Message messageToSend = new Message(lightLevel, temperature, humidity, motion, relayStatus);
+        Message messageToSend = new Message(lightLevel, temperature, humidity, motion, relayStatus, binariedImage);
         sendMessage(messageToSend);
         
     }
