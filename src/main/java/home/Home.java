@@ -3,6 +3,8 @@ package home;
 import com.github.sarxos.webcam.Webcam;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,7 @@ import javax.media.control.*;
 import javax.media.datasink.*;
 import javax.media.format.*;
 import javax.media.protocol.*;
+import javax.swing.ImageIcon;
 
 /**
  * recieving data from arduino and sending it to InterlayerServer
@@ -29,7 +32,7 @@ import javax.media.protocol.*;
  */
 public class Home
 {
-    private static final String ip = "192.168.10.101"; // change to ip of interlayer server
+    private static final String ip = "192.168.10.102"; // change to ip of interlayer server
     private static final int port = 1234;
     
     private static boolean armed = false;
@@ -40,7 +43,7 @@ public class Home
     private static BufferedReader input;
     
     static SerialPort serialPort;
-    private static String serialPortID = "COM5";
+    private static String serialPortID = "COM3";
     
     private static boolean motion;
     private static int lightLevel;
@@ -192,18 +195,33 @@ public class Home
         Home.lightLevel = lightLevel;
         Home.motion = motion;
         
-        File img = new File("C:\\cam.png");
+        File img = new File("E:\\camera.png");
         BufferedImage image = webcam.getImage();
+        ByteArrayOutputStream byteImage = new ByteArrayOutputStream();
         try 
         {
             ImageIO.write(image, "PNG", img); //because File can be serialized, BufferedImage - no
+            ImageIO.write(image, "PNG", byteImage);
         } 
         catch (IOException ex) 
         {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Message messageToSend = new Message(lightLevel, temperature, humidity, motion, relayStatus, img);
+        
+        byte buf[] = byteImage.toByteArray();
+        ByteArrayInputStream inputImg = new ByteArrayInputStream(buf);
+        try 
+        {
+            BufferedImage imgtest = ImageIO.read(inputImg);
+            ImageIO.write(imgtest, "png", new File("E:\\cAfterByteArrayConvert.png"));
+        } catch (IOException ex) 
+        {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Message messageToSend = new Message(lightLevel, temperature, humidity, motion, relayStatus);
         sendMessage(messageToSend);
+        
     }
     
     /**
