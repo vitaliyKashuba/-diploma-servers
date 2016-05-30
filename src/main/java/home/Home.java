@@ -45,6 +45,7 @@ public class Home
     static SerialPort serialPort;
     private static String serialPortID = "COM3";
     
+    private static int servoDegree = 90;
     private static boolean motion;
     private static int lightLevel;
     static final int LIGHT_LEVEL_LIMIT = 50;
@@ -134,7 +135,7 @@ public class Home
         if (command.startsWith("turnServo")) //command pattern turnServo###
         {
             turnServo(Integer.parseInt(command.substring(9, command.length())));
-        }
+        } // syntax changed, become useless?
         else
         {
             switch(command)
@@ -147,6 +148,14 @@ public class Home
                     break;
                 case "photo":
                     takePhoto();
+                    break;
+                case "turnRight":
+                    servoDegree = servoDegree+10;
+                    turnServo(servoDegree);
+                    break;
+                case "turnLight":
+                    servoDegree = servoDegree-10;
+                    turnServo(servoDegree);
                     break;
                 default:
                     System.out.println("cannot parse command");
@@ -261,7 +270,17 @@ public class Home
      */
     static void turnServo(int degrees)
     {
-        //TODO send it to arduino
+        if(degrees > 0 && degrees < 180)
+        {
+            try 
+            {
+                serialPort.writeBytes(("s"+degrees).getBytes());
+            } 
+            catch (SerialPortException ex) 
+            {
+                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     /**
