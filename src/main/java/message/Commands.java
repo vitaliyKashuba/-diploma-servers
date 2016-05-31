@@ -10,8 +10,7 @@ public enum Commands
     LIGHT_ON(11),
     LIGHT_OFF(10),
     SIREN_ON(21),
-    SIREN_OFF(20),
-    FEED(3);
+    SIREN_OFF(20);
     
     private int command;
 

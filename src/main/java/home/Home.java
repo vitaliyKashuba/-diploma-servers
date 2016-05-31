@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,19 +56,7 @@ public class Home
     private static Webcam webcam;
     
     public static void main(String args[])
-    {
-        //Vector deviceListVector = CaptureDeviceManager.getDeviceList(null);
-        
-        //System.out.println(deviceListVector.size());
-        
-        /*Webcam webcam = Webcam.getDefault();
-        webcam.open();
-        try {
-            ImageIO.write(webcam.getImage(), "PNG", new File("C:\\hello-world.png"));
-        } catch (IOException ex) {
-            //Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        
+    { 
         webcam = Webcam.getDefault();
         webcam.open();
         
@@ -146,7 +135,7 @@ public class Home
                 case "lightOff":
                     setLightOn(false);
                     break;
-                case "photo":
+                case "takeShot":
                     takePhoto();
                     break;
                 case "turnRight":
@@ -156,6 +145,12 @@ public class Home
                 case "turnLight":
                     servoDegree = servoDegree-10;
                     turnServo(servoDegree);
+                    break;
+                case "arm":
+                    armed = true;
+                    break;
+                case "disarm":
+                    armed = false;
                     break;
                 default:
                     System.out.println("cannot parse command");
@@ -215,16 +210,6 @@ public class Home
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
         byte binariedImage[] = byteImage.toByteArray();
-        
-        /*ByteArrayInputStream inputImg = new ByteArrayInputStream(buf);
-        try 
-        {
-            BufferedImage imgtest = ImageIO.read(inputImg);
-            ImageIO.write(imgtest, "png", new File("E:\\cAfterByteArrayConvert.png"));
-        } catch (IOException ex) 
-        {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        }*/   //just how it should be on client side
         
         Message messageToSend = new Message(lightLevel, temperature, humidity, motion, relayStatus, binariedImage);
         sendMessage(messageToSend);
@@ -288,7 +273,13 @@ public class Home
      */
     static void takePhoto()
     {
-        //TODO finish it
+        try 
+        {
+            ImageIO.write(webcam.getImage(), "png", new File("E:\\camImages"+new Date().toString()+".png"));
+        } catch (IOException ex) 
+        {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -296,14 +287,18 @@ public class Home
      * should activate if sensors detects motion or user send command
      */
     static void alarmOn()
-    {}
+    {
+        sendCommand(Commands.SIREN_ON);
+    }
     
     /**
      * ends alarm
      * called by user command or after 5 minutes of alarming
      */
     static void alarmOff()
-    {}
+    {
+        sendCommand(Commands.SIREN_OFF);
+    }
     
     /**
      * switch on/off light
@@ -336,17 +331,5 @@ public class Home
         {
             return false;
         }
-    }
-    
-    /**
-     * used to control color of RGB led backlight
-     * @param on switch on\off
-     * @param color rgb color 4rrrgggbbb //TODO change to Class RGB?
-     */
-    static void setRGB(boolean on, int color)
-    {}
-    
-    static void feedFish()
-    {}
-    
+    }   
 }
